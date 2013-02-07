@@ -1,0 +1,10 @@
+<header>
+	<h1>Update Status / CS</h1>
+	<nav>
+<% if current_user != nil %>
+  <div class="signed_in_as">Signed in as: <b><%= current_user.name %></b><br/>
+    <%= link_to "Sign out", signout_path, :method => :delete %>
+  </div>
+<% end %>
+	</nav>
+</header>

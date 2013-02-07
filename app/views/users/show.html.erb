@@ -1,0 +1,47 @@
+<div class="span-16 maincol">
+	<%= form_tag(:action => "new_status") do %>
+		<h4>Update Status:</h4>
+		<%= text_area_tag(:status, nil) %>
+		<br />
+		<% if @user.is_authorized?("twitter") %>
+			<%= check_box_tag(:twitter) %>
+			<%= label_tag(:twitter, "Twitter") %>
+		<% end %>
+		<% if @user.is_authorized?("facebook") %>
+			<%= check_box_tag(:facebook) %>
+			<%= label_tag(:facebook, "Facebook") %>
+		<% end %>
+		<% if @user.is_authorized?("linked_in") %>
+			<%= check_box_tag(:linkedin) %>
+			<%= label_tag(:linkedin, "LinkedIn") %>
+		<% end %>
+		<br /><br />
+		<%= submit_tag("Send Update") %>
+	<% end %>
+
+</div>
+
+<div class="span-7 last sidebar">
+	<h4>Your Authorized Services:</h4>
+	<% @user.authorizations.each do |auth| %>
+		<p><%= auth.provider %> (<%= link_to "remove this account", auth, :method => :delete %>)</p>
+	<% end %>
+
+	<% if @user.authorizations.count < 3 %>
+	<h4>Add additional accounts:</h4>
+	<% if !@user.is_authorized?("twitter") %>
+		<%= link_to "Sign in with Twitter", "/auth/twitter" %><br />
+	<% end %>
+	<% if !@user.is_authorized?("facebook") %>
+		<%= link_to "Sign in with Facebook", "/auth/facebook" %><br />
+	<% end %>
+	<% if !@user.is_authorized?("linked_in") %>
+		<%= link_to "Sign in with LinkedIn", "/auth/linked_in" %><br />
+	<% end %>
+	<% end %>
+	
+	<br />
+	<p>Note that if you sign out, you can sign back in with any of the services you have authorized.</p>
+	<p>If you remove all of your authorized services, you will be signed out of this application.</p>
+	
+</div>
